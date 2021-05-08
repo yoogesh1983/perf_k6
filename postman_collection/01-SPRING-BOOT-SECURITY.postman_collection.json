@@ -1,0 +1,315 @@
+{
+	"info": {
+		"_postman_id": "cdf6ef19-3098-4267-9251-1fcd4419a597",
+		"name": "01-SPRING-BOOT-SECURITY",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"     var jsonData = pm.response.json();",
+							"     var jwtToken = jsonData.data.jwt;",
+							"     var guid = jsonData.data.uid;",
+							"     console.log(\"Jwt token: \" + jwtToken);",
+							"     pm.environment.set(\"jwtToken\", jwtToken);",
+							"     pm.environment.set(\"guid\", guid);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"{{usernameSpringBoot}}\",\n    \"password\": {{passwordSpringBoot}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{springBootSecurityUrl}}/dispatcher/api/authentication",
+					"host": [
+						"{{springBootSecurityUrl}}"
+					],
+					"path": [
+						"dispatcher",
+						"api",
+						"authentication"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"     var jsonData = pm.response.json();",
+							"     var response = jsonData.data;",
+							"     if(response === null){",
+							"        console.log(\"Removing the Authorization token from the global scope..\");",
+							"        pm.environment.set(\"jwtToken\", \"\");",
+							"     }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwtToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{springBootSecurityUrl}}/dispatcher/api/authentication/{{guid}}?username={{usernameSpringBoot}}",
+					"host": [
+						"{{springBootSecurityUrl}}"
+					],
+					"path": [
+						"dispatcher",
+						"api",
+						"authentication",
+						"{{guid}}"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "{{usernameSpringBoot}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Signup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"Sushila\",\r\n  \"lastName\": \"Sapkota\",\r\n  \"password\": \"1234\",\r\n  \"username\": \"sushila@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{springBootSecurityUrl}}/dispatcher/api/user",
+					"host": [
+						"{{springBootSecurityUrl}}"
+					],
+					"path": [
+						"dispatcher",
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"      var jsonData = pm.response.json();\r",
+							"     var username = jsonData.data.username;\r",
+							"     pm.environment.set(\"usernameSpringBoot\", username);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"ysharma@gmail.com\",\r\n  \"firstName\": \"Yoogesh\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{springBootSecurityUrl}}/dispatcher/api/user/{{guid}}",
+					"host": [
+						"{{springBootSecurityUrl}}"
+					],
+					"path": [
+						"dispatcher",
+						"api",
+						"user",
+						"{{guid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwtToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{springBootSecurityUrl}}/dispatcher/api/user/{{guid}}?username={{usernameSpringBoot}}",
+					"host": [
+						"{{springBootSecurityUrl}}"
+					],
+					"path": [
+						"dispatcher",
+						"api",
+						"user",
+						"{{guid}}"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "{{usernameSpringBoot}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{springBootSecurityUrl}}/dispatcher/api/user?username={{usernameSpringBoot}}",
+					"host": [
+						"{{springBootSecurityUrl}}"
+					],
+					"path": [
+						"dispatcher",
+						"api",
+						"user"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "{{usernameSpringBoot}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{springBootSecurityUrl}}/dispatcher/api/user/all",
+					"host": [
+						"{{springBootSecurityUrl}}"
+					],
+					"path": [
+						"dispatcher",
+						"api",
+						"user",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{springBootSecurityUrl}}/dispatcher/api/user/{{guid}}",
+					"host": [
+						"{{springBootSecurityUrl}}"
+					],
+					"path": [
+						"dispatcher",
+						"api",
+						"user",
+						"{{guid}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
