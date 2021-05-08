@@ -20,7 +20,7 @@ postman[Symbol.for("initial")]({
 export default function() {
   postman[Request]({
     name: "Login",
-    id: "6fdcd0a9-a32a-4200-833f-a622c2c70e67",
+    id: "01bb74e8-dcbc-45b0-a39a-b157fdffc57a",
     method: "POST",
     address: "{{springBootSecurityUrl}}/dispatcher/api/authentication",
     data:
@@ -44,7 +44,7 @@ export default function() {
 
   postman[Request]({
     name: "Logout",
-    id: "488f2a20-667a-4c26-988e-70528c5f22d1",
+    id: "1f0e2ac8-38c4-4fc1-9f61-2eda72671a8e",
     method: "DELETE",
     address:
       "{{springBootSecurityUrl}}/dispatcher/api/authentication/{{guid}}?username=user@gmail.com",
@@ -68,7 +68,7 @@ export default function() {
 
   postman[Request]({
     name: "Get all users",
-    id: "9e1e1cd9-9f91-4d7f-b663-692ef1c6ecb8",
+    id: "7aca99f0-9e2b-40bf-a893-eef5d524a1a8",
     method: "GET",
     address: "{{springBootSecurityUrl}}/dispatcher/api/user/all"
   });
