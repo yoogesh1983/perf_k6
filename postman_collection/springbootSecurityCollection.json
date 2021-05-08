@@ -107,7 +107,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{springBootSecurityUrl}}/dispatcher/api/authentication/{{guid}}?username={{usernameSpringBoot}}",
+					"raw": "{{springBootSecurityUrl}}/dispatcher/api/authentication/{{guid}}?username=user@gmail.com",
 					"host": [
 						"{{springBootSecurityUrl}}"
 					],
@@ -120,151 +120,7 @@
 					"query": [
 						{
 							"key": "username",
-							"value": "{{usernameSpringBoot}}"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Signup",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"firstName\": \"Sushila\",\r\n  \"lastName\": \"Sapkota\",\r\n  \"password\": \"1234\",\r\n  \"username\": \"sushila@gmail.com\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{springBootSecurityUrl}}/dispatcher/api/user",
-					"host": [
-						"{{springBootSecurityUrl}}"
-					],
-					"path": [
-						"dispatcher",
-						"api",
-						"user"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Update user",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"      var jsonData = pm.response.json();\r",
-							"     var username = jsonData.data.username;\r",
-							"     pm.environment.set(\"usernameSpringBoot\", username);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PATCH",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"ysharma@gmail.com\",\r\n  \"firstName\": \"Yoogesh\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{springBootSecurityUrl}}/dispatcher/api/user/{{guid}}",
-					"host": [
-						"{{springBootSecurityUrl}}"
-					],
-					"path": [
-						"dispatcher",
-						"api",
-						"user",
-						"{{guid}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete user",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{jwtToken}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{springBootSecurityUrl}}/dispatcher/api/user/{{guid}}?username={{usernameSpringBoot}}",
-					"host": [
-						"{{springBootSecurityUrl}}"
-					],
-					"path": [
-						"dispatcher",
-						"api",
-						"user",
-						"{{guid}}"
-					],
-					"query": [
-						{
-							"key": "username",
-							"value": "{{usernameSpringBoot}}"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Find user",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{springBootSecurityUrl}}/dispatcher/api/user?username={{usernameSpringBoot}}",
-					"host": [
-						"{{springBootSecurityUrl}}"
-					],
-					"path": [
-						"dispatcher",
-						"api",
-						"user"
-					],
-					"query": [
-						{
-							"key": "username",
-							"value": "{{usernameSpringBoot}}"
+							"value": "user@gmail.com"
 						}
 					]
 				}
@@ -286,26 +142,6 @@
 						"api",
 						"user",
 						"all"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get user by id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{springBootSecurityUrl}}/dispatcher/api/user/{{guid}}",
-					"host": [
-						"{{springBootSecurityUrl}}"
-					],
-					"path": [
-						"dispatcher",
-						"api",
-						"user",
-						"{{guid}}"
 					]
 				}
 			},

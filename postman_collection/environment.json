@@ -3,21 +3,6 @@
 	"name": "LOCAL",
 	"values": [
 		{
-			"key": "apiurl",
-			"value": "https://local.totalwine.com:9002/twmwebservices/v2/twm",
-			"enabled": true
-		},
-		{
-			"key": "omsapiurl",
-			"value": "https://local.totalwine.com:9002/twmomswebservices/twm/v1",
-			"enabled": true
-		},
-		{
-			"key": "droolsurl",
-			"value": "http://localhost:8080",
-			"enabled": true
-		},
-		{
 			"key": "jwtToken",
 			"value": "",
 			"enabled": true

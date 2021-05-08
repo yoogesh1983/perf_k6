@@ -18,15 +18,9 @@ postman[Symbol.for("initial")]({
 });
 
 export default function() {
-  signIn();
-  signOut();
-  getAllUsers();
-}
-
-function signIn() {
   postman[Request]({
     name: "Login",
-    id: "20b0fcc4-91d3-48b8-a6d2-aefac054f946",
+    id: "6fdcd0a9-a32a-4200-833f-a622c2c70e67",
     method: "POST",
     address: "{{springBootSecurityUrl}}/dispatcher/api/authentication",
     data:
@@ -36,7 +30,7 @@ function signIn() {
       Accept: "application/json"
     },
     post(response) {
-      pm.test("Status code is 200", function () {
+      pm.test("Status code is 200", function() {
         pm.response.to.have.status(200);
         var jsonData = pm.response.json();
         var jwtToken = jsonData.data.jwt;
@@ -47,16 +41,13 @@ function signIn() {
       });
     }
   });
-}
 
-
-function signOut(){
   postman[Request]({
     name: "Logout",
-    id: "304da45b-d5fa-47c8-a157-a27769006155",
+    id: "488f2a20-667a-4c26-988e-70528c5f22d1",
     method: "DELETE",
     address:
-      "{{springBootSecurityUrl}}/dispatcher/api/authentication/{{guid}}?username={{usernameSpringBoot}}",
+      "{{springBootSecurityUrl}}/dispatcher/api/authentication/{{guid}}?username=user@gmail.com",
     post(response) {
       pm.test("Status code is 200", function() {
         pm.response.to.have.status(200);
@@ -74,12 +65,10 @@ function signOut(){
       config.headers.Authorization = `Bearer ${pm[Var]("jwtToken")}`;
     }
   });
-}
 
-function getAllUsers(){
   postman[Request]({
     name: "Get all users",
-    id: "612890e9-d88c-4cf1-b4a4-70d172b7a4bc",
+    id: "9e1e1cd9-9f91-4d7f-b663-692ef1c6ecb8",
     method: "GET",
     address: "{{springBootSecurityUrl}}/dispatcher/api/user/all"
   });
