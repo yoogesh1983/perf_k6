@@ -1,5 +1,13 @@
 How to generate k6 script from postman collection?
 
-> npm i -g postman-to-k6
+> npm run generate
 
-> postman-to-k6 springbootSecurityCollection.json -e environment.json -o script.js
+How to run the script?
+
+<i><u>for windows:</u></i>
+
+> npm run dev
+
+<i><u>for mac:</u></i>
+
+> npm run dev-mac

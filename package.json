@@ -18,9 +18,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
 
-    "dev": "npm-run-all --parallel dev:*",
-    "dev:generate-script": "postman-to-k6 postman_collection/springbootSecurityCollection.json -e postman_collection/environment.json -o script.js",
-    "dev:run-script": "k6 run script.js"
+    "generate": "postman-to-k6 postman_collection/springbootSecurityCollection.json -e postman_collection/environment.json -o script.js",
+    "dev": "k6 run script.js",
+    "dev-mac": "docker run -i loadimpact/k6 run - <script.js"
   },
   "eslintConfig": {
     "extends": [
