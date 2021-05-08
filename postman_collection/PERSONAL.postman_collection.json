@@ -1,0 +1,568 @@
+{
+	"info": {
+		"_postman_id": "f93f18e5-65c5-4e39-baa4-4349632e06a2",
+		"name": "PERSONAL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GO-MY-ACCOUNT",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"     var jsonData = pm.response.json();\r",
+									"     var jwtToken = jsonData.data.jwt;\r",
+									"     var guid = jsonData.data.uid;\r",
+									"     console.log(\"Jwt token: \" + jwtToken);\r",
+									"     pm.environment.set(\"jwtToken\", jwtToken);\r",
+									"     pm.environment.set(\"guid\", guid);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/authentication",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"authentication"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"        console.log(\"Removing the Authorization token from the Environment scope..\");\r",
+									"        pm.environment.set(\"jwtToken\", \"\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwtToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/authentication/{{guid}}?username={{username}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"authentication",
+								"{{guid}}"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{username}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwtToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/{{guid}}?username={{username}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"{{guid}}"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{username}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Sushila\",\r\n  \"lastName\": \"Sapkota\",\r\n  \"password\": \"1234\",\r\n  \"username\": \"sushila@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Sushila\",\r\n  \"lastName\": \"Sapkota\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/{{guid}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"{{guid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find user by username",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user?username={{username}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{username}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find user by guid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user?guid={{guid}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user"
+							],
+							"query": [
+								{
+									"key": "guid",
+									"value": "{{guid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find all users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SPRING_BOOT_SECURITY",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"     var jsonData = pm.response.json();",
+									"     var jwtToken = jsonData.data.jwt;",
+									"     var guid = jsonData.data.uid;",
+									"     console.log(\"Jwt token: \" + jwtToken);",
+									"     pm.environment.set(\"jwtToken\", jwtToken);",
+									"     pm.environment.set(\"guid\", guid);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{usernameSpringBoot}}\",\n    \"password\": {{passwordSpringBoot}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{springBootSecurityUrl}}/dispatcher/api/authentication",
+							"host": [
+								"{{springBootSecurityUrl}}"
+							],
+							"path": [
+								"dispatcher",
+								"api",
+								"authentication"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"     var jsonData = pm.response.json();",
+									"     var response = jsonData.data;",
+									"     if(response === null){",
+									"        console.log(\"Removing the Authorization token from the global scope..\");",
+									"        pm.environment.set(\"jwtToken\", \"\");",
+									"     }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{springBootSecurityUrl}}/dispatcher/api/authentication/{{guid}}?username={{usernameSpringBoot}}",
+							"host": [
+								"{{springBootSecurityUrl}}"
+							],
+							"path": [
+								"dispatcher",
+								"api",
+								"authentication",
+								"{{guid}}"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{usernameSpringBoot}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Sushila\",\r\n  \"lastName\": \"Sapkota\",\r\n  \"password\": \"1234\",\r\n  \"username\": \"sushila@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{springBootSecurityUrl}}/dispatcher/api/user",
+							"host": [
+								"{{springBootSecurityUrl}}"
+							],
+							"path": [
+								"dispatcher",
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"      var jsonData = pm.response.json();\r",
+									"     var username = jsonData.data.username;\r",
+									"     pm.environment.set(\"usernameSpringBoot\", username);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"ysharma@gmail.com\",\r\n  \"firstName\": \"Yoogesh\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{springBootSecurityUrl}}/dispatcher/api/user/{{guid}}",
+							"host": [
+								"{{springBootSecurityUrl}}"
+							],
+							"path": [
+								"dispatcher",
+								"api",
+								"user",
+								"{{guid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{springBootSecurityUrl}}/dispatcher/api/user/{{guid}}?username={{usernameSpringBoot}}",
+							"host": [
+								"{{springBootSecurityUrl}}"
+							],
+							"path": [
+								"dispatcher",
+								"api",
+								"user",
+								"{{guid}}"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{usernameSpringBoot}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootSecurityUrl}}/dispatcher/api/user?username={{usernameSpringBoot}}",
+							"host": [
+								"{{springBootSecurityUrl}}"
+							],
+							"path": [
+								"dispatcher",
+								"api",
+								"user"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{usernameSpringBoot}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootSecurityUrl}}/dispatcher/api/user/all",
+							"host": [
+								"{{springBootSecurityUrl}}"
+							],
+							"path": [
+								"dispatcher",
+								"api",
+								"user",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootSecurityUrl}}/dispatcher/api/user/{{guid}}",
+							"host": [
+								"{{springBootSecurityUrl}}"
+							],
+							"path": [
+								"dispatcher",
+								"api",
+								"user",
+								"{{guid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

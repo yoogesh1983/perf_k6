@@ -1,2 +1,1 @@
-# perf_k6
-wret
+`postman-to-k6 postman_collection/PERSONAL.postman_collection.json -e postman_collection/LOCAL.postman_environment.json -o script.js`
