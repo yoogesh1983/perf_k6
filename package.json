@@ -10,14 +10,14 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "k6": "0.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-
     "generate": "postman-to-k6 postman_collection/springbootSecurityCollection.json -e postman_collection/environment.json -o script.js",
     "dev": "k6 run script.js",
     "dev-mac": "docker run -i loadimpact/k6 run - <script.js"
