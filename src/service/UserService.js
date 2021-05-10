@@ -14,18 +14,6 @@ export const loginEndPointUrl = baseUrl => `${baseUrl}/authentication`
 export const logoutEndPointUrl = (baseUrl, guid, username) => `${baseUrl}/authentication/${guid}?username=${username}`
 export const getAllUsersEndPointUrl = baseUrl => `${baseUrl}/user/all`
 
-
-export const setHeader = jwtToken => {
-    let header =  {
-        headers: {
-            'Content-Type' : 'application/json',
-            'Accept' : 'application/json'
-        }
-    }
-    return header
-}
-
-
 //login
 export function login(baseUrl, username, password){
     let fullUrl = loginEndPointUrl(baseUrl)
@@ -141,5 +129,15 @@ export function logger(url, response, type, name, logResponseBody){
     } catch(ex){
 
     }
+}
+
+export const setHeader = jwtToken => {
+    let header =  {
+        headers: {
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
+        }
+    }
+    return header
 }
 
