@@ -99,7 +99,7 @@ export function getAllUsers(baseUrl){
     })
     failureRate.add(!isResponseOK)
 
-    logger(fullUrl, response, 'GET', 'GETALLUSERS', false)
+    logger(fullUrl, response, 'GET', 'GET_ALL_USERS', false)
 
     let body
 

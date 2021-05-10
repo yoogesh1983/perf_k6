@@ -7,6 +7,6 @@
   },
   "scripts": {
     "dev": "npm-run-all --parallel dev:*",
-    "dev:execute-k6": "k6 run src/testcase/User.js"
+    "dev:execute-k6": "k6 run Entry.js"
   }
 }
