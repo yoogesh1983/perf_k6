@@ -57,7 +57,6 @@ export function login(baseUrl, username, password){
         })
         failureRate.add(!isResponseOK)
     }
-
     return body
 }
 
@@ -96,7 +95,6 @@ export function logout(baseUrl, uid, username, jwt){
         failureRate.add(!isResponseOK)
         body = null
     }
-
     return body
 }
 
@@ -128,13 +126,15 @@ export function getAllUsers(baseUrl){
         failureRate.add(!isResponseOK)
         body = Null
     }
-
     return body
 }
 
 
 export function logger(url, response, type, name, logResponseBody){
-    console.log(`VU=${__VU} ITER=${__ITER} | Method: ${type} | Name: ${name} | URL: ${url} | Status: ${response.status}${response.status > 399 || logResponseBody === true ? ` | Response: ${JSON.stringify(JSON.parse(response.body))}` : ''}`)
+    url = url.replace("http://localhost:8888/springbootsecurity/dispatcher/api", '')
+    let body = response.status > 399 || logResponseBody === true ? ` | Response: ${JSON.stringify(JSON.parse(response.body))}` : ''
+
+    console.log(`VU=${__VU} ITER=${__ITER} | Method: ${type} | Name: ${name} | URL: ${url} | Status: ${response.status}${body}`)
     try{
         // co-relation is a kind of unique id generated per rest call in a server sidet
         console.log(`VU=${__VU} ITER=${__ITER} : X-correlationID: ${JSON.stringify(JSON.parse(response.headers))[`x-Correlation-Id`]}`)
