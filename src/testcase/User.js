@@ -5,11 +5,11 @@ import * as env from '../../env.js'
 // 1. init()
 let baseUrl;
 if (currentEnvironment == env.prod) {
-  baseUrl = env.prodBaseUrl;
+  baseUrl = env.prodBaseUrl.SERVER_ENDPOINT;
 } else if (currentEnvironment == env.dev) {
-  baseUrl = env.devBaseUrl;
+  baseUrl = env.devBaseUrl.SERVER_ENDPOINT;
 } else if (currentEnvironment == env.local) {
-  baseUrl = env.localBaseUrl;
+  baseUrl = env.localBaseUrl.SERVER_ENDPOINT;
 }
 export let options = {
     vus,
@@ -19,21 +19,23 @@ export let options = {
 
 // 2. setup()
 export function setup(){
-  console.log('setup called.....')
+  console.log('setup called with CURRENT_ENVIRONMENT:', currentEnvironment)
 }
 
 // 3. default
 export default function(){
   try{
 
-    //login and logout
-    r = service.login(baseUrl, username, password)
-    service.logout(baseUrl, r.uid, r.jwt)
+    //login
+    let r = service.login(baseUrl, username, password)
+
+    //logout
+    service.logout(baseUrl, r.uid, username, r.jwt)
 
     //getAllusers
     service.getAllUsers(baseUrl)
 
   } catch(ex){
-    console.log(`Exception occured during the execution of testcases`)
+    console.log(`Exception occured during the execution of testcases ${ex}`)
   }
 }

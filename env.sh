@@ -1,4 +1,5 @@
-#This environment variable can be set by running a command 'source env.sh' while running
+# This environment variable can be set by running a command 'source env.sh' while running
+# However in windows, you should copy blow lines and paste inside 'C:/cygwin64/home/yooge/.bashrc' file so that it will be pickedup when cgwyn opensup!!
 export ENVIRONMENT='local'
 export USERNAME='admin@gmail.com'
 export PASSWORD='1231'

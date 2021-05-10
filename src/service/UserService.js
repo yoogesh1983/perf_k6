@@ -28,22 +28,24 @@ export const setHeader = jwtToken => {
 
 //login
 export function login(baseUrl, username, password){
-    console.log('Inside login()')
-
     let fullUrl = loginEndPointUrl(baseUrl)
-    let data = {
-        "username": `${username}`,
-        "password": `${password}`
-    }
-    let response = http.post(fullUrl,data,setHeader())
+
+    var payload = JSON.stringify({
+        username: `${username}`,
+        password: `${password}`,
+      });
+
+    let response = http.post(fullUrl,payload,setHeader())
     loginTrend.add(response.timings.duration)
-    
-    isResponseOK = check(response, {
+
+
+    let isResponseOK = check(response, {
         "login response status 200: " : r => r.status == 200
     })
+    
     failureRate.add(!isResponseOK)
 
-    logger(fullUrl, response)
+    logger(fullUrl, response, 'POST', 'LOGIN', false)
 
     let body
     try{
@@ -60,19 +62,26 @@ export function login(baseUrl, username, password){
 }
 
 //logout
-export function logout(baseUrl, uid, jwt){
-    console.log('Inside logout()')
+export function logout(baseUrl, uid, username, jwt){
+    let fullUrl = logoutEndPointUrl(baseUrl, uid, username)
 
-    let fullUrl = logoutEndPointUrl(baseUrl, uid, jwt)
-    let response = http.delete(fullUrl)
+    let params = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept' : 'application/json',
+          'Authorization': `Bearer ${jwt}`,
+        },
+      };
+
+    let response = http.del(fullUrl, null, params)
     logoutTrend.add(response.timings.duration)
 
-    isResponseOK = check(response, {
+    let isResponseOK = check(response, {
         "logout response status 200: " : r => r.status == 200
     })
     failureRate.add(!isResponseOK)
 
-    logger(fullUrl, response)
+    logger(fullUrl, response, 'DELETE', 'LOGOUT', false)
 
     let body
 
@@ -94,18 +103,17 @@ export function logout(baseUrl, uid, jwt){
 
 //getAllUsers
 export function getAllUsers(baseUrl){
-    console.log('Inside getAllUsers()')
-
     let fullUrl = getAllUsersEndPointUrl(baseUrl)
+
     let response = http.get(fullUrl,setHeader())
     getAllUsersTrend.add(response.timings.duration)
     
-    isResponseOK = check(response, {
+    let isResponseOK = check(response, {
         "getAllUsers response status 200: " : r => r.status == 200
     })
     failureRate.add(!isResponseOK)
 
-    logger(fullUrl)
+    logger(fullUrl, response, 'GET', 'GETALLUSERS', false)
 
     let body
 
@@ -125,15 +133,11 @@ export function getAllUsers(baseUrl){
 }
 
 
-export function logger(url, response){
-    console.log(`VU=${__VU} ITER=${__ITER} : Logger started`)
-    console.log(`VU=${__VU} ITER=${__ITER} : Endpoint is ${url}`)
-    console.log(`VU=${__VU} ITER=${__ITER} : Response status is ${response.status}`)
-    console.log(`VU=${__VU} ITER=${__ITER} : Response body is ${JSON.stringify(JSON.parse(response.body))}`)
-
+export function logger(url, response, type, name, logResponseBody){
+    console.log(`VU=${__VU} ITER=${__ITER} | Method: ${type} | Name: ${name} | URL: ${url} | Status: ${response.status}${response.status > 399 || logResponseBody === true ? ` | Response: ${JSON.stringify(JSON.parse(response.body))}` : ''}`)
     try{
-        // co-relation is a kind of unique id generated per rest call in a server side
-        console.log(`VU=${__VU} ITER=${__ITER} : Response body is ${JSON.stringify(JSON.parse(response.headers))[`x-Correlation-Id`]}`)
+        // co-relation is a kind of unique id generated per rest call in a server sidet
+        console.log(`VU=${__VU} ITER=${__ITER} : X-correlationID: ${JSON.stringify(JSON.parse(response.headers))[`x-Correlation-Id`]}`)
     } catch(ex){
 
     }
